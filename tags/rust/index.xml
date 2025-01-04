@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Home on DEVxPAIN&#39;s Blog</title>
-    <link>https://example.org/</link>
-    <description>Recent content in Home on DEVxPAIN&#39;s Blog</description>
+    <title>Rust on DEVxPAIN&#39;s Blog</title>
+    <link>https://example.org/tags/rust/</link>
+    <description>Recent content in Rust on DEVxPAIN&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 04 Jan 2025 20:15:03 +0800</lastBuildDate>
-    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://example.org/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to Check Traits Implemented for a Struct or Enum</title>
       <link>https://example.org/posts/how-to-check-traits-implemented-for-a-struct-or-enum/</link>
