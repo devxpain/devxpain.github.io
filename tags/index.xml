@@ -1,19 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Tags on DEVxPAIN&#39;s Blog</title>
-    <link>https://example.org/tags/</link>
-    <description>Recent content in Tags on DEVxPAIN&#39;s Blog</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 04 Jan 2025 20:15:03 +0800</lastBuildDate>
-    <atom:link href="https://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Rust</title>
-      <link>https://example.org/tags/rust/</link>
-      <pubDate>Sat, 04 Jan 2025 20:15:03 +0800</pubDate>
-      <guid>https://example.org/tags/rust/</guid>
-      <description></description>
-    </item>
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Tags - Tag - DEV×PAIN</title>
+        <link>https://pain.devxfamily.com/tags/</link>
+        <description>Tags - Tag - DEV×PAIN</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 04 Jan 2025 20:15:03 &#43;0800</lastBuildDate><atom:link href="https://pain.devxfamily.com/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>Rust</title>
+    <link>https://pain.devxfamily.com/tags/rust/</link>
+    <pubDate>Sat, 04 Jan 2025 20:15:03 &#43;0800</pubDate>
+    <author>Author</author>
+    <guid>https://pain.devxfamily.com/tags/rust/</guid>
+    <description><![CDATA[]]></description>
+</item>
+</channel>
 </rss>

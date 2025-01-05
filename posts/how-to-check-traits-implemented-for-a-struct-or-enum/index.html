@@ -1,50 +1,101 @@
 <!DOCTYPE html>
-<html lang="en-us" dir="ltr">
-<head>
-  <meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>How to Check Traits Implemented for a Struct or Enum | DEVxPAIN&#39;s Blog</title>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Rust Tips: How to Check Traits Implemented for a Struct or Enum - </title><meta name="Description" content="This is my cool site!"><meta property="og:url" content="http://localhost:1313/posts/how-to-check-traits-implemented-for-a-struct-or-enum/">
+  <meta property="og:site_name" content="DEVxPAIN&#39;s Blog">
+  <meta property="og:title" content="Rust Tips: How to Check Traits Implemented for a Struct or Enum">
+  <meta property="og:description" content="When transitioning from OOP languages to Rust, you might notice some differences in how traits (similar to interface in Java) are handled. In OOP, a class often centralizes information about inherited interfaces, making it easy to see at a glance.
+Java Example // Interfaces.java interface InterfaceA { void methodA(); } interface InterfaceB { void methodB(); } // ConcreteClass.java public class ConcreteClass implements InterfaceA, InterfaceB { @Override public void methodA() { // Implementation for methodA } @Override public void methodB() { // Implementation for methodB } } In Rust, however, traits implemented by a struct or enum might not be as immediately obvious, since their implementations can be scattered across multiple files.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-04T20:15:03+08:00">
+    <meta property="article:modified_time" content="2025-01-04T20:15:03+08:00">
+    <meta property="article:tag" content="Rust">
 
-      <link rel="stylesheet" href="/css/main.min.73be4799b2091d293b47b52ca2642fe82aa2b1c9c050e8d1b389a80939a30dd4.css" integrity="sha256-c75HmbIJHSk7R7UsomQv6CqiscnAUOjRs4moCTmjDdQ=" crossorigin="anonymous">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rust Tips: How to Check Traits Implemented for a Struct or Enum">
+  <meta name="twitter:description" content="When transitioning from OOP languages to Rust, you might notice some differences in how traits (similar to interface in Java) are handled. In OOP, a class often centralizes information about inherited interfaces, making it easy to see at a glance.
+Java Example // Interfaces.java interface InterfaceA { void methodA(); } interface InterfaceB { void methodB(); } // ConcreteClass.java public class ConcreteClass implements InterfaceA, InterfaceB { @Override public void methodA() { // Implementation for methodA } @Override public void methodB() { // Implementation for methodB } } In Rust, however, traits implemented by a struct or enum might not be as immediately obvious, since their implementations can be scattered across multiple files.">
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://localhost:1313/posts/how-to-check-traits-implemented-for-a-struct-or-enum/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Rust Tips: How to Check Traits Implemented for a Struct or Enum",
+        "inLanguage": "en-us",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/localhost:1313\/posts\/how-to-check-traits-implemented-for-a-struct-or-enum\/"
+        },"genre": "posts","keywords": "rust","wordcount":  490 ,
+        "url": "http:\/\/localhost:1313\/posts\/how-to-check-traits-implemented-for-a-struct-or-enum\/","datePublished": "2025-01-04T20:15:03+08:00","dateModified": "2025-01-04T20:15:03+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Author"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 
-
-      <script src="/js/main.23cd0c7d837263b9eaeb96ee2d9ccfa2969daa3fa00fa1c1fe8701a9b87251a1.js" integrity="sha256-I80MfYNyY7nq65buLZzPopadqj&#43;gD6HB/ocBqbhyUaE=" crossorigin="anonymous"></script>
-
-
-</head>
-<body>
-  <header>
-    <h1>DEVxPAIN&#39;s Blog</h1>
-
-  <nav>
-    <ul>
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <li>
-      <a aria-current="true" class="ancestor" href="/posts/">Posts</a>
-    </li>
-    <li>
-      <a href="/tags/">Tags</a>
-    </li>
-    </ul>
-  </nav>
-
-
-  </header>
-  <main>
-    
-  <h1>How to Check Traits Implemented for a Struct or Enum</h1>
-
-  
-  
-  <time datetime="2025-01-04T20:15:03&#43;08:00">January 4, 2025</time>
-
-  <h1 id="rust-tips-how-to-check-traits-implemented-for-a-struct-or-enum">Rust Tips: How to Check Traits Implemented for a Struct or Enum</h1>
-<p>When transitioning from OOP languages to Rust, you might notice some differences in how traits (similar to interface in Java) are handled. In OOP, a class often centralizes information about inherited interfaces, making it easy to see at a glance.</p>
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="">My cool site x</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="">My cool site x</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Rust Tips: How to Check Traits Implemented for a Struct or Enum</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2025-01-04">2025-01-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;490 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#java-example">Java Example</a></li>
+    <li><a href="#rust-example">Rust Example</a></li>
+    <li><a href="#neovim-leveraging-rustaceanvim-1">NeoVim: Leveraging rustaceanvim [^1]</a></li>
+    <li><a href="#vscode-simplified-with-rust-analyzer">VSCode: Simplified with rust-analyzer</a></li>
+    <li><a href="#why-this-matters">Why This Matters</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>When transitioning from OOP languages to Rust, you might notice some differences in how traits (similar to interface in Java) are handled. In OOP, a class often centralizes information about inherited interfaces, making it easy to see at a glance.</p>
 <h2 id="java-example">Java Example</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Interfaces.java</span>
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">InterfaceA</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">methodA</span>();
 </span></span><span style="display:flex;"><span>}
@@ -52,8 +103,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">InterfaceB</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">methodB</span>();
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ConcreteClass.java</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// ConcreteClass.java</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConcreteClass</span> <span style="color:#66d9ef">implements</span> InterfaceA, InterfaceB {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">methodA</span>() {
@@ -75,8 +125,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> InterfaceB {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">method_b</span>(<span style="color:#f92672">&amp;</span>self);
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// concrete_struct.rs
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// concrete_struct.rs
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ConcreteStruct</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> ConcreteStruct {
@@ -84,8 +133,7 @@
 </span></span><span style="display:flex;"><span>        ConcreteStruct
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// impl_a.rs
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// impl_a.rs
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::interfaces::InterfaceA;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::concrete_struct::ConcreteStruct;
 </span></span><span style="display:flex;"><span>
@@ -94,8 +142,7 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Implementation for method_a
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// impl_b.rs
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// impl_b.rs
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::interfaces::InterfaceB;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::concrete_struct::ConcreteStruct;
 </span></span><span style="display:flex;"><span>
@@ -121,7 +168,14 @@
 <p>Find Trait Implementations: Look for the line that says “Go to [x] implementations” (where x represents the number of implementations). Press Enter to open a window showing all the traits implemented by that symbol.</p>
 </li>
 </ol>
-<p><img src="neovim.png" alt="NeoVim"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/how-to-check-traits-implemented-for-a-struct-or-enum/neovim.png"
+        data-srcset="/posts/how-to-check-traits-implemented-for-a-struct-or-enum/neovim.png, /posts/how-to-check-traits-implemented-for-a-struct-or-enum/neovim.png 1.5x, /posts/how-to-check-traits-implemented-for-a-struct-or-enum/neovim.png 2x"
+        data-sizes="auto"
+        alt="/posts/how-to-check-traits-implemented-for-a-struct-or-enum/neovim.png"
+        title="NeoVim" width="789" height="666" /></p>
 <h2 id="vscode-simplified-with-rust-analyzer">VSCode: Simplified with rust-analyzer</h2>
 <p>VSCode users can also take advantage of rust-analyzer for similar functionality. Here’s how:</p>
 <ol>
@@ -138,26 +192,53 @@
 <p>Explore Implementations: Click on the “[x] implementations” link. A new window will appear, listing all the traits implemented by the symbol.</p>
 </li>
 </ol>
-<p><img src="vscode.png" alt="VSCode"></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/posts/how-to-check-traits-implemented-for-a-struct-or-enum/vscode.png"
+        data-srcset="/posts/how-to-check-traits-implemented-for-a-struct-or-enum/vscode.png, /posts/how-to-check-traits-implemented-for-a-struct-or-enum/vscode.png 1.5x, /posts/how-to-check-traits-implemented-for-a-struct-or-enum/vscode.png 2x"
+        data-sizes="auto"
+        alt="/posts/how-to-check-traits-implemented-for-a-struct-or-enum/vscode.png"
+        title="VSCode" width="762" height="357" /></p>
 <h2 id="why-this-matters">Why This Matters</h2>
 <p>Understanding which traits a struct or enum implements is essential for maintaining and debugging Rust code, especially in larger projects. By integrating rust-analyzer into your workflow, you can overcome Rust’s decentralized trait implementation syntax and make your development process smoother.</p>
 <p>Whether you’re using NeoVim or VSCode, rust-analyzer empowers you to navigate and understand your codebase with confidence. Try these tips today and experience the productivity boost firsthand!</p>
 <h2 id="references">References</h2>
-<p>[^1] <a href="https://github.com/mrcjkb/rustaceanvim">rustaceanvim</a></p>
+<p>[^1] <a href="https://github.com/mrcjkb/rustaceanvim" target="_blank" rel="noopener noreffer ">rustaceanvim</a></p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2025-01-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://localhost:1313/posts/how-to-check-traits-implemented-for-a-struct-or-enum/" data-title="Rust Tips: How to Check Traits Implemented for a Struct or Enum" data-hashtags="rust"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/how-to-check-traits-implemented-for-a-struct-or-enum/" data-hashtag="rust"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://localhost:1313/posts/how-to-check-traits-implemented-for-a-struct-or-enum/" data-title="Rust Tips: How to Check Traits Implemented for a Struct or Enum"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://localhost:1313/posts/how-to-check-traits-implemented-for-a-struct-or-enum/" data-title="Rust Tips: How to Check Traits Implemented for a Struct or Enum"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/how-to-check-traits-implemented-for-a-struct-or-enum/" data-title="Rust Tips: How to Check Traits Implemented for a Struct or Enum"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
 
-  
-  <div>
-    <div>Tags:</div>
-    <ul>
-        <li><a href="/tags/rust/">Rust</a></li>
-    </ul>
-  </div>
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/rust/">Rust</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
 
+    <div class="post-nav"></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.140.2">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2025</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
 
-  </main>
-  <footer>
-    <p>Copyright 2025. All rights reserved.</p>
-
-  </footer>
-</body>
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
 </html>
